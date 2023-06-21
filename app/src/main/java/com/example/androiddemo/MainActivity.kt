@@ -1,21 +1,19 @@
 package com.example.androiddemo
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
-import com.example.androiddemo.config_database.AppDatabase
+import com.example.androiddemo.configdatabase.AppDatabase
 import com.example.androiddemo.databinding.ActivityMainBinding
-import com.example.androiddemo.entities.Note
 import com.example.androiddemo.fragments.HomeFragment
 import com.example.androiddemo.fragments.MyFragment
 import com.example.androiddemo.fragments.PubFragment
-import com.example.androiddemo.utils.bitmaptoblob
+
 
 
 class MainActivity : AppCompatActivity() {
+
+
 
 //    companion object{
 //        val noteDao=AppDatabase.getDatabase(this).noteDao()
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        val noteDao=AppDatabase.getDatabase(this).noteDao()
         val fragmentManager=supportFragmentManager
         val transcation=fragmentManager.beginTransaction()
         transcation.replace(R.id.fragment_container,homeFragment)
@@ -69,4 +67,6 @@ class MainActivity : AppCompatActivity() {
 //        val bitmap=(resources.getDrawable(R.drawable.img_1,null)).toBitmap()
 //        val note1= Note("家人们谁懂啊", "今天要去吃好吃的", bitmaptoblob()
 //    }
+    fun test(){
+    }
 }

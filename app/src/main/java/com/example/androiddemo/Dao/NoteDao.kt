@@ -1,4 +1,4 @@
-package com.example.androiddemo.Dao
+package com.example.androiddemo.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

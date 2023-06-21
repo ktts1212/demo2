@@ -1,10 +1,10 @@
-package com.example.androiddemo.utils
+package com.example.androiddemo
 
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 
-class MyApplicaiton:Application() {
+class MainApplicaiton:Application() {
     companion object{
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
@@ -12,6 +12,6 @@ class MyApplicaiton:Application() {
 
     override fun onCreate() {
         super.onCreate()
-        context=applicationContext
+        context =applicationContext
     }
 }
