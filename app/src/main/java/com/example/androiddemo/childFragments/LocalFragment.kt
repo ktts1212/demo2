@@ -16,6 +16,10 @@ import kotlin.concurrent.thread
 
 class LocalFragment : Fragment() {
 
+    companion object{
+        var noteListInitialize=0
+    }
+
     private lateinit var noteDao: NoteDao
 
     private var noteList = ArrayList<Note>()
@@ -45,16 +49,19 @@ class LocalFragment : Fragment() {
     }
 
     fun initList() {
-        //noteList.clear()
-        thread {
-            for (note in noteDao.queryNotes("郑州")) {
-                noteList.add(note)
+        if (noteListInitialize==0){
+            noteListInitialize=1
+            thread {
+                for (note in noteDao.queryNotes("郑州")) {
+                    noteList.add(note)
+                }
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onPause() {
+        super.onPause()
+        noteListInitialize=0
         noteList.clear()
     }
 

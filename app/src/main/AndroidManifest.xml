@@ -30,6 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
+
         <activity
             android:name=".NoteDetailActivity"
             android:exported="false" />
@@ -38,6 +39,7 @@
             android:name=".service.NetworkStateService"
             android:enabled="true"
             android:exported="true" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

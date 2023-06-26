@@ -15,10 +15,4 @@ interface NoteDao {
 
    @Query("select * from Note where tag=:tag")
    fun queryNotes(tag:String):List<Note>
-
-   @Query("delete from Note where author=:nickname")
-   fun deleteByNickname(nickname:String):Int
-
-   @Query("select * from Note where author=:nickname")
-   fun queryByNickname(nickname: String):List<Note>
 }

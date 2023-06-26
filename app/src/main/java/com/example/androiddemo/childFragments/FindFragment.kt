@@ -26,7 +26,7 @@ class FindFragment : Fragment() {
 
     private var noteList = ArrayList<Note>()
 
-    private lateinit var noteDao: NoteDao
+    private  val noteDao: NoteDao=AppDatabase.getDatabase(MainApplicaiton.context).noteDao()
 
     private lateinit var binding: FragmentFindBinding
 
@@ -34,14 +34,13 @@ class FindFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        noteDao = AppDatabase.getDatabase(MainApplicaiton.context).noteDao()
-        initList()
+        Log.d(TAG,"onCreateView")
         binding = FragmentFindBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initList()
         super.onViewCreated(view, savedInstanceState)
         val staggeredGridLayoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -95,15 +94,20 @@ class FindFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         Log.d(TAG,"OnPause.....")
+        noteListInitialize=0
+        noteList.clear()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         Log.d(TAG,"OnAttach.....")
     }
 
     override fun onStop() {
         super.onStop()
+        //noteListInitialize=0
         Log.d(TAG,"OnStop.....")
     }
+
 }
