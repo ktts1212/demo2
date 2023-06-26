@@ -50,8 +50,10 @@ class NoteAdapter(private val noteList: List<Note>) : RecyclerView.Adapter<NoteA
         holder.noteAuthor.text = note.author
         holder.noteTitle.text = note.title
         holder.likecount.text=(0..10000).random().toString()
-        if (note.islike==true){
+        if (note.islike){
             holder.likeImage.setImageResource(R.drawable.like1)
+        }else{
+            holder.likeImage.setImageResource(R.drawable.like)
         }
     }
 

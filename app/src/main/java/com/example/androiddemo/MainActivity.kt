@@ -1,6 +1,8 @@
 package com.example.androiddemo
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -24,11 +26,7 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
-        //0 未初始化，1 已初始化
-        var tableFollowInitialize=0
-        var tableNoteInitialize=0
-    }
+    private val TAG = "MainAc"
 
     private val followDao = AppDatabase.getDatabase(MainApplicaiton.context).followDao()
 
@@ -50,9 +48,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MainAc", "onCreate....")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("MainAc", tableFollowInitialize.toString())
+        val prefs=getSharedPreferences("data", Context.MODE_PRIVATE)
+        val tableFollowInitialize=prefs.getInt("tableFollowInitialize",0)
+        val tableNoteInitialize=prefs.getInt("tableNoteInitialize",0)
+        Log.d(TAG,tableFollowInitialize.toString())
+        Log.d(TAG,tableNoteInitialize.toString())
+        if ((prefs.getInt("tableFollowInitialize",0)==0)&&(prefs.getInt("tableNoteInitialize",0)==0)){
+            initDatabase()
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkPermission()
         } else {
@@ -118,110 +124,102 @@ class MainActivity : AppCompatActivity() {
         }
 
     fun initDatabase() {
+        val editor = getSharedPreferences("data", Context.MODE_PRIVATE).edit()
+        editor.putInt("tableFollowInitialize", 1)
+        editor.putInt("tableNoteInitialize", 1)
+        editor.apply()
+        val note1 = Note(
+            "GitHub上“千金难求”，SpringBoot全彩手册", "内容涵盖SpringMVC，Mybatis plus，" +
+                    "SpringData JPA等主流框架，还涉及单元测试，异常处理等。", bitmaptoblob(
+                BitmapFactory.decodeResource(resources, R.drawable.note1)
+            ), "稳妥先生", "推荐", false
+        )
 
-        if (tableFollowInitialize==0&& tableNoteInitialize==0){
+        val note2 = Note(
+            "中国的IT人才缺口更大？缺少3000万？",
+            "都说日本缺IT人才大概80万，而据人瑞" +
+                    "报告中国的缺口为3000万人，增长最快的用人需求是人工智能基盘和智能制造",
+            bitmaptoblob(
+                BitmapFactory.decodeResource(resources, R.drawable.note2)
+            ),
+            "青青子衿",
+            "推荐", false
+        )
 
-            tableNoteInitialize=1
+        val note3 = Note(
+            "郑州人才公寓:紫辰美寓即将开抢！！！", "啊吐去管城区紫辰美寓了，替大家考虑一下！！" +
+                    "啊吐个人觉得，能抢人才公寓尽量要抢，毕竟环境价格方面都非常划算！！", bitmaptoblob(
+                BitmapFactory.decodeResource(resources, R.drawable.note3)
+            ), "吐司男","推荐", false
+        )
 
-            tableFollowInitialize=1
+        val note4 = Note(
+            "夏日养生小常识", "冰镇冷饮不仅仅会降低胃动力，往上寒气入心，入肺，往下可以" +
+                    "影响到大肠，小肠", bitmaptoblob(
+                BitmapFactory.decodeResource(resources, R.drawable.note4)
+            ), "张三李四王五i", "推荐", false
+        )
 
-            val note1=Note("GitHub上“千金难求”，SpringBoot全彩手册","内容涵盖SpringMVC，Mybatis plus，" +
-                    "SpringData JPA等主流框架，还涉及单元测试，异常处理等。", bitmaptoblob(BitmapFactory.
-            decodeResource(resources,R.drawable.note1)),"稳妥先生",islike = false
-            )
+        val note5 = Note(
+            "全球十大军用运输机",
+            "图片仅用于个人学习与交流或个人欣赏用途(禁转发搬运/禁商用)",
+            bitmaptoblob(
+                BitmapFactory.decodeResource(resources, R.drawable.note5)
+            ),
+            "小星星",
+            "推荐", true
+        )
 
-            val note2=Note("中国的IT人才缺口更大？缺少3000万？","都说日本缺IT人才大概80万，而据人瑞" +
-                    "报告中国的缺口为3000万人，增长最快的用人需求是人工智能基盘和智能制造", bitmaptoblob(BitmapFactory.
-            decodeResource(resources,R.drawable.note2)),"青青子衿",islike = false
-            )
+        val note6 = Note(
+            "笑笑我呀，今天要开始上全班了哦", "懂事的笑猪猪一人能扛起宝家半边天了，" +
+                    "替母上班，像你爸爸学习，加油呀笑宝", bitmaptoblob(
+                BitmapFactory.decodeResource(resources, R.drawable.note6)
+            ), "燥3岁", "推荐", true
+        )
 
-            val note3=Note("郑州人才公寓:紫辰美寓即将开抢！！！","啊吐去管城区紫辰美寓了，替大家考虑一下！！" +
-                    "啊吐个人觉得，能抢人才公寓尽量要抢，毕竟环境价格方面都非常划算！！", bitmaptoblob(BitmapFactory.
-            decodeResource(resources,R.drawable.note3)),"吐司男",islike = false
-            )
+        val follow1 = Follow(
+            bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user1)),
+            "稳妥先生"
+        )
+        val follow2 = Follow(
+            bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user2)),
+            "南山抠脚汉"
+        )
+        val follow3 = Follow(
+            bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user3)),
+            "青青子衿"
+        )
+        val follow4 = Follow(
+            bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user4)),
+            "吐司男"
+        )
+        val follow5 = Follow(
+            bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user5)),
+            "我酷毙了吗"
+        )
+        val follow6 = Follow(
+            bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user6)),
+            "街道男孩"
+        )
+        val follow7 = Follow(
+            bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user7)),
+            "她是纯氧."
+        )
 
-            val note4=Note("夏日养生小常识","冰镇冷饮不仅仅会降低胃动力，往上寒气入心，入肺，往下可以" +
-                    "影响到大肠，小肠", bitmaptoblob(BitmapFactory.
-            decodeResource(resources,R.drawable.note4)),"张三李四王五i", islike = false
-            )
-
-            val note5=Note("全球十大军用运输机","图片仅用于个人学习与交流或个人欣赏用途(禁转发搬运/禁商用)", bitmaptoblob(BitmapFactory.
-            decodeResource(resources,R.drawable.note5)),"小星星", islike = true
-            )
-
-            val note6=Note("笑笑我呀，今天要开始上全班了哦","懂事的笑猪猪一人能扛起宝家半边天了，" +
-                    "替母上班，像你爸爸学习，加油呀笑宝", bitmaptoblob(BitmapFactory.
-            decodeResource(resources,R.drawable.note6)),"燥3岁", islike = true
-            )
-
-            val follow1 = Follow(
-                bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user1)),
-                "稳妥先生"
-            )
-            val follow2 = Follow(
-                bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user2)),
-                "南山抠脚汉"
-            )
-            val follow3 = Follow(
-                bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user3)),
-                "青青子衿"
-            )
-            val follow4 = Follow(
-                bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user4)),
-                "吐司男"
-            )
-            val follow5 = Follow(
-                bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user5)),
-                "我酷毙了吗"
-            )
-            val follow6 = Follow(
-                bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user6)),
-                "街道男孩"
-            )
-            val follow7 = Follow(
-                bitmaptoblob(BitmapFactory.decodeResource(resources, R.drawable.user7)),
-                "她是纯氧."
-            )
-
-            thread {
-                follow1.id = followDao.insertFollow(follow1)
-                follow2.id = followDao.insertFollow(follow2)
-                follow3.id = followDao.insertFollow(follow3)
-                follow4.id = followDao.insertFollow(follow4)
-                follow5.id = followDao.insertFollow(follow5)
-                follow6.id = followDao.insertFollow(follow6)
-                follow7.id = followDao.insertFollow(follow7)
-                note1.id=noteDao.insertNote(note1)
-                note2.id=noteDao.insertNote(note2)
-                note3.id=noteDao.insertNote(note3)
-                note4.id=noteDao.insertNote(note4)
-                note5.id=noteDao.insertNote(note5)
-                note6.id=noteDao.insertNote(note6)
-            }
-        }else{
-         Log.d("MainActivity","数据库已完成初始化")
-        }
-    }
-
-
-    override fun onStop() {
-        super.onStop()
         thread {
-            followDao.deleteAllData()
-            noteDao.deleteByNickname("稳妥先生")
-            noteDao.deleteByNickname("青青子衿")
-            noteDao.deleteByNickname("吐司男")
-            noteDao.deleteByNickname("张三李四王五i")
-            noteDao.deleteByNickname("燥3岁")
-            noteDao.deleteByNickname("小星星")
+            follow1.id = followDao.insertFollow(follow1)
+            follow2.id = followDao.insertFollow(follow2)
+            follow3.id = followDao.insertFollow(follow3)
+            follow4.id = followDao.insertFollow(follow4)
+            follow5.id = followDao.insertFollow(follow5)
+            follow6.id = followDao.insertFollow(follow6)
+            follow7.id = followDao.insertFollow(follow7)
+            note1.id = noteDao.insertNote(note1)
+            note2.id = noteDao.insertNote(note2)
+            note3.id = noteDao.insertNote(note3)
+            note4.id = noteDao.insertNote(note4)
+            note5.id = noteDao.insertNote(note5)
+            note6.id = noteDao.insertNote(note6)
         }
-        Log.d("MainAc","已被销毁")
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("MainAc","初始化了数据库")
-        initDatabase()
     }
 }
