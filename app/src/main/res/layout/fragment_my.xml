@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.MyFragment">
+
+    <ScrollView
+        android:id="@+id/vertical_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/background">
+
+                <ImageView
+                    android:id="@+id/user_avatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="35dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/avatar" />
+
+                <TextView
+                    android:id="@+id/user_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/user_avatar"
+                    android:layout_marginStart="30dp"
+                    android:layout_toRightOf="@id/user_avatar"
+                    android:text="张三李四王五i" />
+
+                <TextView
+                    android:id="@+id/user_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/user_nickname"
+                    android:layout_alignLeft="@id/user_nickname"
+                    android:layout_marginTop="30dp"
+                    android:text="13关注 | 1粉丝 | 705获赞" />
+
+                <Button
+                    android:id="@+id/btn_applyauth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/user_avatar"
+                    android:layout_alignStart="@id/user_avatar"
+                    android:layout_marginTop="20dp"
+                    android:text="申请认证" />
+
+                <Button
+                    android:id="@+id/btn_updateinfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/btn_applyauth"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/btn_applyauth"
+                    android:text="编辑资料" />
+            </RelativeLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="800dp">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/my_tab_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toTopOf="@id/my_view_paper"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tabGravity="fill"
+                    app:tabMode="fixed"
+                    app:tabTextAppearance="@style/TabLayoutTextStyle" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/my_view_paper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="50dp"
+                    android:saveEnabled="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/my_tab_header" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

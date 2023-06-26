@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.PubFragment">
+
+    <TextView
+        android:id="@+id/title_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="40dp"
+        android:text="标题"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/title_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/title_display"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toEndOf="@id/title_display"
+        android:hint="请输入标题"
+        android:maxLines="2"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:id="@+id/content_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_input"
+        android:layout_alignStart="@id/title_display"
+        android:layout_marginTop="10dp"
+        android:text="内容"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/content_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_input"
+        android:layout_alignStart="@id/title_input"
+        android:hint="请输入内容"
+        android:maxLines="4"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:id="@+id/image_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_input"
+        android:layout_alignStart="@id/content_display"
+        android:layout_marginTop="10dp"
+        android:text="插入图片"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/image_input"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/content_input"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/image_display"
+        android:adjustViewBounds="true"
+        android:src="@drawable/img_2" />
+
+    <TextView
+        android:id="@+id/tag_display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_input"
+        android:layout_alignStart="@id/title_display"
+        android:layout_marginTop="10dp"
+        android:text="请选择标签"
+        android:textSize="30sp" />
+
+    <RadioButton
+        android:id="@+id/tag_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_input"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/tag_display"
+        android:text="郑州"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/pub_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tag_button"
+        android:layout_marginTop="25dp"
+        android:background="@color/white"
+        android:text="发布" />
+
+</RelativeLayout>
